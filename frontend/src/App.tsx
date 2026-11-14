@@ -13,6 +13,7 @@ import { Atmosphere } from './components/sections/Atmosphere';
 import { ChefSection } from './components/sections/ChefSection';
 import { Accolades } from './components/sections/Accolades';
 import { Reservation } from './components/sections/Reservation';
+import { AuthPage } from './components/sections/AuthPage';
 import { Footer } from './components/layout/Footer';
 import { Calendar, ArrowUpRight } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -22,6 +23,7 @@ function App() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isReservationModalOpen, setIsReservationModalOpen] = useState(false);
   const [showMobileStickyBar, setShowMobileStickyBar] = useState(false);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,7 +41,7 @@ function App() {
 
   return (
     <SmoothScrollProvider>
-      <div className="relative min-h-screen bg-[#080808] text-[#F4F4F5] selection:bg-[#C5A059] selection:text-black font-sans">
+      <div className="relative min-h-screen bg-[#080808] font-sans text-[#F4F4F5] selection:bg-[#C5A059] selection:text-black">
         {/* Film grain noise overlay */}
         <NoiseOverlay />
 
@@ -55,6 +57,7 @@ function App() {
         <Navbar
           onOpenDrawer={() => setIsDrawerOpen(true)}
           onOpenReservation={() => setIsReservationModalOpen(true)}
+          onOpenAuth={() => setIsAuthOpen(true)}
         />
 
         {/* Fullscreen Navigation Drawer */}
@@ -62,6 +65,7 @@ function App() {
           isOpen={isDrawerOpen}
           onClose={() => setIsDrawerOpen(false)}
           onOpenReservation={() => setIsReservationModalOpen(true)}
+          onOpenAuth={() => setIsAuthOpen(true)}
         />
 
         {/* Main Content Sections */}
@@ -87,6 +91,10 @@ function App() {
               onCloseModal={() => setIsReservationModalOpen(false)}
             />
           )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {isAuthOpen && <AuthPage onClose={() => setIsAuthOpen(false)} />}
         </AnimatePresence>
 
         {/* Mobile Sticky Reservation Bottom Bar */}

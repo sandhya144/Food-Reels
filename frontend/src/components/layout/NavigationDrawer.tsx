@@ -8,6 +8,7 @@ interface NavigationDrawerProps {
   isOpen: boolean;
   onClose: () => void;
   onOpenReservation: () => void;
+  onOpenAuth: () => void;
 }
 
 const navLinks = [
@@ -24,6 +25,7 @@ export const NavigationDrawer: React.FC<NavigationDrawerProps> = ({
   isOpen,
   onClose,
   onOpenReservation,
+  onOpenAuth,
 }) => {
   const { scrollTo } = useSmoothScroll();
 
@@ -148,6 +150,16 @@ export const NavigationDrawer: React.FC<NavigationDrawerProps> = ({
               </div>
 
               <div className="pt-6 border-t border-white/10">
+                <button
+                  onClick={() => {
+                    onClose();
+                    onOpenAuth();
+                  }}
+                  className="mb-3 flex w-full items-center justify-center gap-2 rounded-full border border-white/15 px-6 py-3.5 text-xs font-medium uppercase tracking-[0.25em] text-zinc-300 transition-colors hover:border-[#C5A059]/60 hover:text-[#C5A059]"
+                >
+                  Sign in or create account
+                  <ArrowUpRight className="h-4 w-4" />
+                </button>
                 <button
                   onClick={() => {
                     onClose();

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import gsap from 'gsap';
-import { Sparkles, ArrowDown } from 'lucide-react';
+import { ArrowDown } from 'lucide-react';
 import { RESTAURANT_INFO } from '../../data/restaurantData';
 import { Magnetic } from '../common/Magnetic';
 import { useSmoothScroll } from '../../context/SmoothScrollContext';

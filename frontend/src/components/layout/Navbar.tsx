@@ -7,9 +7,10 @@ import { useSmoothScroll } from '../../context/SmoothScrollContext';
 interface NavbarProps {
   onOpenDrawer: () => void;
   onOpenReservation: () => void;
+  onOpenAuth: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenDrawer, onOpenReservation }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onOpenDrawer, onOpenReservation, onOpenAuth }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -199,6 +200,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenDrawer, onOpenReservation 
               Salons
             </button>
           </nav>
+
+          <Magnetic strength={0.2}>
+            <button
+              onClick={onOpenAuth}
+              data-cursor="Sign in"
+              className="hidden text-xs tracking-[0.2em] text-zinc-300 transition-colors hover:text-[#C5A059] sm:block"
+            >
+              Sign in
+            </button>
+          </Magnetic>
 
           <Magnetic strength={0.3}>
             <button
