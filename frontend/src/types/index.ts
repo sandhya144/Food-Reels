@@ -1,3 +1,12 @@
+export type AccountRole = 'user' | 'foodPartner';
+
+export interface AuthAccount {
+  _id: string;
+  email: string;
+  name: string;
+  role: AccountRole;
+}
+
 export interface MenuItem {
   id: string;
   courseNumber: string;
