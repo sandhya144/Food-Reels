@@ -64,7 +64,7 @@ async function loginUser(req, res) {
 }
 
 async function registerFoodPartner(req, res) {
-    const { name, email, password } = req.body;
+    const { bussinessname, name, email, password, phone } = req.body;
     const isAccountAlreadyExists = await foodPartnerModel.findOne({ email });
 
     if (isAccountAlreadyExists) {
@@ -72,7 +72,7 @@ async function registerFoodPartner(req, res) {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const foodPartner = await foodPartnerModel.create({ name, email, password: hashedPassword });
+    const foodPartner = await foodPartnerModel.create({ bussinessname, name, email, phone, password: hashedPassword });
 
     setSessionCookie(res, foodPartner._id.toString(), "foodPartner");
     const account = getAccount("foodPartner", foodPartner);
@@ -80,8 +80,13 @@ async function registerFoodPartner(req, res) {
     return res.status(201).json({
         message: "Food partner registered successfully",
         role: "foodPartner",
-        account,
-        foodPartner: account,
+        foodPartner:{
+            _id: foodPartner._id,
+            email: foodPartner.email,
+            name: foodPartner.name,
+            phone: foodPartner.phone,
+            bussinessname: foodPartner.bussinessname,
+        }
     });
 }
 
