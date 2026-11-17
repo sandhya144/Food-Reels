@@ -48,20 +48,6 @@
   text-decoration: none;
 }
 
-.brand-mark {
-  display: grid;
-  width: 30px;
-  height: 30px;
-  place-items: center;
-  border-radius: 10px;
-  color: var(--color-accent-contrast);
-  background: var(--color-accent);
-  font-family: Georgia, serif;
-  font-size: 22px;
-  font-weight: 700;
-  line-height: 1;
-}
-
 .aside-copy {
   z-index: 1;
   margin-top: 114px;

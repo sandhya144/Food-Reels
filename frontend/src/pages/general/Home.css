@@ -20,6 +20,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 clamp(22px, 5vw, 76px);
+  padding-left: clamp(28px, 10vw, 156px);
   background: linear-gradient(180deg, rgb(15 14 12 / 42%), transparent);
 }
 
@@ -32,20 +33,6 @@
   font-weight: 700;
   letter-spacing: -0.045em;
   text-decoration: none;
-}
-
-.reels-brand__mark {
-  display: grid;
-  width: 31px;
-  height: 31px;
-  place-items: center;
-  border-radius: 10px;
-  color: #fffdf8;
-  background: #d95f3c;
-  font-family: Georgia, serif;
-  font-size: 23px;
-  font-weight: 700;
-  line-height: 1;
 }
 
 .reels-header__label {

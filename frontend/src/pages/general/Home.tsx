@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import './Home.css';
+import Brand from '../../components/Brand';
 import reelOne from '../../assets/videos/14552837_1080_1920_30fps.mp4';
 import reelTwo from '../../assets/videos/15743654_1080_1920_30fps.mp4';
 import reelThree from '../../assets/videos/8908405-hd_1080_1920_25fps.mp4';
@@ -78,12 +79,9 @@ const Home = () => {
   return (
     <main className="reels-home">
       <header className="reels-header">
-        <a className="reels-brand" href="/" aria-label="FoodLoops home">
-          <span className="reels-brand__mark" aria-hidden="true">f</span>
-          <span>FoodLoops</span>
-        </a>
+        <Brand className="reels-brand" to="/" />
         <span className="reels-header__label">A taste of somewhere good</span>
-        <a className="reels-header__account" href="/user/login">Sign in</a>
+         <a className="reels-header__account" href="/food-partner/login">Partner Login </a>
       </header>
 
       <div className="reels-feed" ref={feedRef} aria-label="Food videos">

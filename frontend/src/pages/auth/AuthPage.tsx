@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import './AuthPage.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Brand from '../../components/Brand';
 
 type AuthPageProps = {
   role: 'user' | 'partner';
@@ -81,10 +82,7 @@ const AuthPage = ({ role, mode }: AuthPageProps) => {
     <main className="auth-page">
       <section className="auth-shell" aria-label={`${isPartner ? 'Food partner' : 'User'} ${mode}`}>
         <aside className={`auth-aside${isPartner ? ' auth-aside--partner' : ''}`}>
-          <Link className="brand" to="/user/login" aria-label="Food Reels home">
-            <span className="brand-mark" aria-hidden="true">f</span>
-            <span>FoodLoops</span>
-          </Link>
+          <Brand className="brand" to="/user/login" wordmark="FoodLoop" />
 
           <div className="aside-copy">
             <span className="eyebrow">{isPartner ? 'FOR FOOD PARTNERS' : 'A LITTLE MORE DELICIOUS'}</span>
