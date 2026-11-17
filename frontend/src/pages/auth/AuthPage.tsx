@@ -1,18 +1,81 @@
 import { Link } from 'react-router-dom';
 import './AuthPage.css';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 type AuthPageProps = {
   role: 'user' | 'partner';
   mode: 'login' | 'register';
 };
 
+
+// receives two props
 const AuthPage = ({ role, mode }: AuthPageProps) => {
   const isPartner = role === 'partner';
   const isRegister = mode === 'register';
   const basePath = isPartner ? '/food-partner' : '/user';
+
+  const navigate = useNavigate();
+
+//  form submission
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+
+  e.preventDefault();  // Prevents page reload
+
+  const formData = new FormData(e.currentTarget);  // refers to the form element on which the event handler is registered.
+
+  // converts form entries into a normal JavaScript object.
+  const data = Object.fromEntries(formData.entries());
+  
+  console.log("Role:", role);
+  console.log("Mode:", mode);
+  console.log("Form Data:", data);
+
+  // axios post request --> backend
+  // axios --> {endpoints,data}
+
+  let endpoint = "";
+
+  if (role === "user" && mode === "register") {
+    endpoint = "/user/register";
+  } 
+  else if (role === "user" && mode === "login") {
+    endpoint = "/user/login";
+  } 
+  else if (role === "partner" && mode === "register") {
+    endpoint = "/food-partner/register";
+  } 
+  else {
+    endpoint = "/food-partner/login";
+  }
+
+   try {
+    const response = await axios.post(
+      `http://localhost:3000/api/auth${endpoint}`,
+      data,
+      { withCredentials: true }   // will save token inside cookies 
+    );
+
+    console.log("Backend Response:", response.data);
+
+    // Role-based navigation
+    
+      if (role === 'user') {
+        navigate('/');  // home
+      } else {
+        navigate('/create-food');  // create food 
+      }
+
+  } catch (error) {
+    console.error("Registration Error:", error);
+  }
+};
+
+
   const title = isPartner
     ? isRegister ? 'Bring your menu to life.' : 'Welcome back.'
     : isRegister ? 'Good food starts here.' : 'Welcome back.';
+
 
   return (
     <main className="auth-page">
@@ -20,7 +83,7 @@ const AuthPage = ({ role, mode }: AuthPageProps) => {
         <aside className={`auth-aside${isPartner ? ' auth-aside--partner' : ''}`}>
           <Link className="brand" to="/user/login" aria-label="Food Reels home">
             <span className="brand-mark" aria-hidden="true">f</span>
-            <span>Food Loop</span>
+            <span>FoodLoops</span>
           </Link>
 
           <div className="aside-copy">
@@ -72,24 +135,26 @@ const AuthPage = ({ role, mode }: AuthPageProps) => {
               </Link>
             </nav>
 
-            <form className="auth-form">
+            {/* form submission  */}
+            <form className="auth-form" onSubmit= {handleSubmit}>
+
               {isRegister && (
                 <>
                   {isPartner ? (
                     <>
                       <label className="form-field">
                         <span>Restaurant name</span>
-                        <input name="restaurantName" type="text" placeholder="e.g. Sunday Table" autoComplete="organization" required />
+                        <input name="bussinessname" type="text" placeholder="e.g. Sunday Table" autoComplete="organization" required />
                       </label>
                       <label className="form-field">
                         <span>Your name</span>
-                        <input name="contactName" type="text" placeholder="e.g. Alex Morgan" autoComplete="name" required />
+                        <input name="name" type="text" placeholder="e.g. Alex Morgan" autoComplete="name" required />
                       </label>
                     </>
                   ) : (
                     <label className="form-field">
                       <span>Your name</span>
-                      <input name="name" type="text" placeholder="e.g. Alex Morgan" autoComplete="name" required />
+                      <input name="fullName" type="text" placeholder="e.g. Alex Morgan" autoComplete="name" required />
                     </label>
                   )}
                 </>
@@ -142,7 +207,7 @@ const AuthPage = ({ role, mode }: AuthPageProps) => {
           </div>
 
           <footer className="auth-footer">
-            <span>© 2025 Food Loop</span>
+            <span>© 2025 FoodLoops</span>
             <a href="#help">Need help?</a>
           </footer>
         </div>
