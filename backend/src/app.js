@@ -11,6 +11,7 @@ const app = express();
 app.use(cookieParser());  // middleware
 app.use(express.json()); //middleware
 
+app.set("trust proxy", 1);
 app.use(cors({
     origin: process.env.FRONTEND_URL || "http://localhost:5173",  // frontend url
     credentials: true
