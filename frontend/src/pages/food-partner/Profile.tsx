@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react';
 
 type FoodPartner = {
   _id: string;
-  bussinessname: string;
+  businessname: string;
   email: string;
 };
 
@@ -28,7 +28,7 @@ const Profile = () => {
   const [isFollowing, setIsFollowing] = useState(false);
 
 
-  const initials = profile?.bussinessname
+  const initials = profile?.businessname
   ?.split(' ')
   .filter(Boolean)
   .slice(0, 2)
@@ -100,7 +100,7 @@ const Profile = () => {
             </span>
 
             <h1 className="partner-profile__name">
-              {profile?.bussinessname}
+              {profile?.businessname}
             </h1>
             <button
               className="partner-profile__follow"

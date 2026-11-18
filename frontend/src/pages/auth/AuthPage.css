@@ -1,4 +1,5 @@
 .auth-page {
+  position: relative;
   min-height: 100vh;
   min-height: 100dvh;
   display: grid;
@@ -6,6 +7,98 @@
   padding: 48px 24px;
   color: var(--color-text);
   background: var(--color-page);
+}
+
+.auth-notice-backdrop {
+  position: fixed;
+  z-index: 10;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgb(18 18 16 / 48%);
+}
+
+.auth-notice {
+  width: min(100%, 420px);
+  padding: 30px;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  color: var(--color-text);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.auth-notice__eyebrow {
+  color: var(--color-accent);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+}
+
+.auth-notice--error .auth-notice__eyebrow {
+  color: #bd3d32;
+}
+
+.auth-notice h2 {
+  margin: 10px 0 8px;
+  font-size: 23px;
+  letter-spacing: -0.04em;
+}
+
+.auth-notice p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.auth-notice__action {
+  display: flex;
+  width: 100%;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 24px;
+  border: 0;
+  border-radius: 8px;
+  color: var(--color-accent-contrast);
+  background: var(--color-accent);
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.auth-notice--success .auth-notice__action {
+  background: #26834a;
+}
+
+.auth-notice--error .auth-notice__action {
+  background: #c23b3b;
+}
+
+.auth-notice__action:hover {
+  filter: brightness(0.96);
+}
+
+.auth-notice__action:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.auth-notice--success .auth-notice__action:focus-visible {
+  outline-color: #26834a;
+}
+
+.auth-notice--error .auth-notice__action:focus-visible {
+  outline-color: #c23b3b;
+}
+
+.auth-notice__action span {
+  font-size: 17px;
+  font-weight: 400;
 }
 
 .auth-shell {
@@ -335,6 +428,12 @@
 
 .submit-button:hover {
   filter: brightness(0.96);
+}
+
+.submit-button:disabled {
+  cursor: wait;
+  filter: saturate(0.7);
+  opacity: 0.8;
 }
 
 .submit-button:active {

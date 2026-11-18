@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import './AuthPage.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import Brand from '../../components/Brand';
 
 type AuthPageProps = {
@@ -9,68 +10,58 @@ type AuthPageProps = {
   mode: 'login' | 'register';
 };
 
+type AuthStatus = {
+  type: 'success' | 'error';
+  message: string;
+};
 
-// receives two props
 const AuthPage = ({ role, mode }: AuthPageProps) => {
   const isPartner = role === 'partner';
   const isRegister = mode === 'register';
   const basePath = isPartner ? '/food-partner' : '/user';
-
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<AuthStatus | null>(null);
 
-//  form submission
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const data = Object.fromEntries(formData.entries());
+    const endpoint = `/${role === 'partner' ? 'food-partner' : 'user'}/${mode}`;
 
-  e.preventDefault();  // Prevents page reload
+    setIsSubmitting(true);
+    setStatus(null);
 
-  const formData = new FormData(e.currentTarget);  // refers to the form element on which the event handler is registered.
+    try {
+      const response = await axios.post<{ message?: string }>(
+        `http://localhost:3000/api/auth${endpoint}`,
+        data,
+        { withCredentials: true }
+      );
+      setStatus({
+        type: 'success',
+        message: response.data.message ?? 'Your account is ready.',
+      });
+    } catch (error) {
+      const message =
+        axios.isAxiosError<{ message?: string }>(error) &&
+        typeof error.response?.data?.message === 'string'
+          ? error.response.data.message
+          : 'Please try again. If the problem continues, check your connection.';
+      setStatus({ type: 'error', message });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
-  // converts form entries into a normal JavaScript object.
-  const data = Object.fromEntries(formData.entries());
-  
-  console.log("Role:", role);
-  console.log("Mode:", mode);
-  console.log("Form Data:", data);
+  const handleStatusAction = () => {
+    if (status?.type === 'success') {
+      navigate(role === 'user' ? '/home' : '/create-food');
+      return;
+    }
 
-  // axios post request --> backend
-  // axios --> {endpoints,data}
-
-  let endpoint = "";
-
-  if (role === "user" && mode === "register") {
-    endpoint = "/user/register";
-  } 
-  else if (role === "user" && mode === "login") {
-    endpoint = "/user/login";
-  } 
-  else if (role === "partner" && mode === "register") {
-    endpoint = "/food-partner/register";
-  } 
-  else {
-    endpoint = "/food-partner/login";
-  }
-
-   try {
-    const response = await axios.post(
-      `http://localhost:3000/api/auth${endpoint}`,
-      data,
-      { withCredentials: true }   // will save token inside cookies 
-    );
-
-    console.log("Backend Response:", response.data);
-
-    // Role-based navigation
-    
-      if (role === 'user') {
-        navigate('/');  // home
-      } else {
-        navigate('/create-food');  // create food 
-      }
-
-  } catch (error) {
-    console.error("Registration Error:", error);
-  }
-};
+    setStatus(null);
+  };
 
 
   const title = isPartner
@@ -80,6 +71,37 @@ const AuthPage = ({ role, mode }: AuthPageProps) => {
 
   return (
     <main className="auth-page">
+      {status && (
+        <div className="auth-notice-backdrop">
+          <section
+            className={`auth-notice auth-notice--${status.type}`}
+            role={status.type === 'error' ? 'alertdialog' : 'dialog'}
+            aria-modal="true"
+            aria-labelledby="auth-notice-title"
+            aria-describedby="auth-notice-message"
+          >
+            <span className="auth-notice__eyebrow">
+              {status.type === 'success' ? 'SUCCESS' : 'PLEASE CHECK'}
+            </span>
+            <h2 id="auth-notice-title">
+              {status.type === 'success'
+                ? isRegister ? 'Account created' : 'Signed in'
+                : isRegister ? 'Registration failed' : 'Sign-in failed'}
+            </h2>
+            <p id="auth-notice-message">{status.message}</p>
+            <button
+              className="auth-notice__action"
+              type="button"
+              onClick={handleStatusAction}
+              autoFocus
+            >
+              {status.type === 'success' ? 'Continue' : 'Try again'}
+              {status.type === 'success' && <span aria-hidden="true">→</span>}
+            </button>
+          </section>
+        </div>
+      )}
+
       <section className="auth-shell" aria-label={`${isPartner ? 'Food partner' : 'User'} ${mode}`}>
         <aside className={`auth-aside${isPartner ? ' auth-aside--partner' : ''}`}>
           <Brand className="brand" to="/user/login" wordmark="FoodLoop" />
@@ -134,7 +156,7 @@ const AuthPage = ({ role, mode }: AuthPageProps) => {
             </nav>
 
             {/* form submission  */}
-            <form className="auth-form" onSubmit= {handleSubmit}>
+            <form className="auth-form" onSubmit={handleSubmit}>
 
               {isRegister && (
                 <>
@@ -142,7 +164,7 @@ const AuthPage = ({ role, mode }: AuthPageProps) => {
                     <>
                       <label className="form-field">
                         <span>Restaurant name</span>
-                        <input name="bussinessname" type="text" placeholder="e.g. Sunday Table" autoComplete="organization" required />
+                        <input name="businessname" type="text" placeholder="e.g. Sunday Table" autoComplete="organization" required />
                       </label>
                       <label className="form-field">
                         <span>Your name</span>
@@ -191,9 +213,11 @@ const AuthPage = ({ role, mode }: AuthPageProps) => {
                 </div>
               )}
 
-              <button className="submit-button" type="submit">
-                {isRegister ? 'Create account' : 'Sign in'}
-                <span aria-hidden="true">→</span>
+              <button className="submit-button" type="submit" disabled={isSubmitting}>
+                {isSubmitting
+                  ? isRegister ? 'Creating account...' : 'Signing in...'
+                  : isRegister ? 'Create account' : 'Sign in'}
+                {!isSubmitting && <span aria-hidden="true">→</span>}
               </button>
             </form>
 
