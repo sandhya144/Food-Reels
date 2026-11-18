@@ -1,0 +1,307 @@
+.partner-profile {
+  width: min(100%, 1040px);
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: 0 clamp(12px, 4vw, 36px) 48px;
+  color: var(--color-text);
+}
+
+.partner-profile__topbar {
+  display: flex;
+  min-height: 68px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.partner-profile__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--color-text);
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.partner-profile__back {
+  color: var(--color-muted);
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.partner-profile__back:hover {
+  color: var(--color-link);
+}
+
+.partner-profile__brand:focus-visible,
+.partner-profile__back:focus-visible,
+.partner-profile__message a:focus-visible {
+  border-radius: 4px;
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.partner-profile__summary {
+  display: grid;
+  gap: 20px;
+  padding: clamp(18px, 4vw, 32px);
+  border: 1px solid var(--color-art-line);
+  border-radius: 18px;
+  color: var(--color-aside-text);
+  background: var(--color-aside-partner);
+  box-shadow: var(--shadow-card);
+}
+
+.partner-profile__identity {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 16px;
+}
+
+.partner-profile__avatar {
+  display: grid;
+  width: clamp(68px, 16vw, 88px);
+  height: clamp(68px, 16vw, 88px);
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid var(--color-art-line);
+  border-radius: 50%;
+  color: var(--color-accent-contrast);
+  background: var(--color-accent);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+}
+
+.partner-profile__details {
+  min-width: 0;
+}
+
+.partner-profile__eyebrow {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--color-aside-muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.partner-profile__name {
+  overflow: hidden;
+  margin: 0;
+  color: var(--color-aside-text);
+  font-size: clamp(18px, 4vw, 25px);
+  font-weight: 650;
+  letter-spacing: -0.04em;
+  text-overflow: ellipsis;
+}
+
+.partner-profile__address {
+  margin: 5px 0 0;
+  color: var(--color-aside-muted);
+  font-size: 12px;
+}
+
+.partner-profile__stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-art-line);
+}
+
+.partner-profile__stat {
+  display: grid;
+  min-width: 0;
+  justify-items: center;
+  gap: 7px;
+  padding: 0 8px;
+  text-align: center;
+}
+
+.partner-profile__stat + .partner-profile__stat {
+  border-left: 1px solid var(--color-art-line);
+}
+
+.partner-profile__stat dt {
+  color: var(--color-aside-muted);
+  font-size: 12px;
+}
+
+.partner-profile__stat dd {
+  margin: 0;
+  color: var(--color-aside-text);
+  font-size: 17px;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+
+.partner-profile__stat:last-child dd {
+  font-size: 13px;
+}
+
+.partner-profile__gallery {
+  padding-top: clamp(24px, 5vw, 42px);
+}
+
+.partner-profile__gallery-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.partner-profile__gallery-heading .partner-profile__eyebrow {
+  color: var(--color-accent);
+}
+
+.partner-profile__gallery-heading h2 {
+  margin: 0;
+  font-size: clamp(20px, 4vw, 26px);
+  letter-spacing: -0.04em;
+}
+
+.partner-profile__count {
+  color: var(--color-muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.partner-profile__videos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(5px, 1.5vw, 14px);
+}
+
+.partner-profile__video-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-surface);
+  box-shadow: 0 5px 18px var(--color-shadow);
+}
+
+.partner-profile__video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  background: var(--color-field-subtle);
+}
+
+.partner-profile__video-copy {
+  padding: 10px 11px 12px;
+}
+
+.partner-profile__video-copy h3 {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0;
+  color: var(--color-text);
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.partner-profile__video-copy p {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 5px 0 0;
+  color: var(--color-muted);
+  font-size: 11px;
+  line-height: 1.45;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.partner-profile__data-note {
+  margin: 16px 0 0;
+  color: var(--color-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.partner-profile__message {
+  margin-top: 36px;
+  padding: 24px;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  color: var(--color-text);
+  background: var(--color-surface);
+  text-align: center;
+}
+
+.partner-profile__message h1 {
+  margin: 0 0 8px;
+  font-size: 20px;
+}
+
+.partner-profile__message p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.partner-profile__message a {
+  display: inline-block;
+  margin-top: 14px;
+  color: var(--color-link);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+@media (min-width: 700px) {
+  .partner-profile__summary {
+    grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
+    align-items: center;
+  }
+
+  .partner-profile__stats {
+    padding-top: 0;
+    border-top: 0;
+    border-left: 1px solid var(--color-art-line);
+  }
+}
+
+@media (max-width: 420px) {
+  .partner-profile__topbar {
+    min-height: 60px;
+  }
+
+  .partner-profile__brand {
+    font-size: 14px;
+  }
+
+  .partner-profile__back {
+    font-size: 12px;
+  }
+
+  .partner-profile__summary {
+    gap: 16px;
+  }
+
+  .partner-profile__identity {
+    gap: 12px;
+  }
+
+  .partner-profile__video-card {
+    border-radius: 8px;
+  }
+
+  .partner-profile__video-copy {
+    padding: 8px;
+  }
+}
