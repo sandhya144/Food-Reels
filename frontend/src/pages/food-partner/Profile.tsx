@@ -1,13 +1,15 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Link, useParams } from 'react-router-dom';
-import Brand from '../../components/Brand';
-import './Profile.css';
 
+import { Link } from 'react-router-dom';
+import Brand from '../../components/Brand';
+import { useParams } from 'react-router-dom';
+import './Profile.css';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 
 type FoodPartner = {
   _id: string;
   bussinessname: string;
+  email: string;
 };
 
 type FoodItem = {
@@ -15,109 +17,50 @@ type FoodItem = {
   name: string;
   description?: string;
   video: string;
-  foodPartner: FoodPartner | string | null;
-};
-
-type FoodItemsResponse = {
-  foodItems: FoodItem[];
-};
-
-const getFoodPartnerId = (
-  foodPartner: FoodItem['foodPartner']
-): string | undefined => {
-  return typeof foodPartner === 'string'
-    ? foodPartner
-    : foodPartner?._id;
 };
 
 const Profile = () => {
-  // Get the food partner ID from the URL
-  const { profileId } = useParams<{ profileId: string }>();
+  // Temporary frontend data — replace it with your own logic later.
 
-  const [foodItems, setFoodItems] = useState<FoodItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const {profileId} =  useParams();
+  const [profile, setProfile] = useState<FoodPartner | null>(null);  // get the Food partner's information
+  const [foodItems, setFoodItems] = useState<FoodItem[]>([]);  // get the Food partner's uploaded videos
+  const [isFollowing, setIsFollowing] = useState(false);
+
+
+  const initials = profile?.bussinessname
+  ?.split(' ')
+  .filter(Boolean)
+  .slice(0, 2)
+  .map(word => word[0])
+  .join('')
+  .toUpperCase() || 'FB';
+
 
   useEffect(() => {
-    let isCurrent = true;
+     // API 1: Fetch food partner details
+    axios.get(`http://localhost:3000/api/food-partner/${profileId}`, {withCredentials: true})
+    .then(response => {
+      setProfile(response.data.foodPartner)   // Store the backend response in state
+    })
+    .catch(error => {
+     console.log(error);
+   });
+  // API 2: Fetch food partner's uploaded videos
+    axios.get(
+    `http://localhost:3000/api/food/partner/${profileId}`,
+    { withCredentials: true }
+      )
+    .then(response => {
+      setFoodItems(response.data.foodItems);
+    })
+    .catch(error => {
+      console.log("Error fetching food items:", error);
+    });
 
-    const fetchFoodItems = async () => {
-      if (!profileId) {
-        setError('Invalid food business profile.');
-        setLoading(false);
-        return;
-      }
-
-      setLoading(true);
-      setError('');
-
-      try {
-        const response = await axios.get<FoodItemsResponse>(
-          'http://localhost:3000/api/food',
-          {
-            withCredentials: true,
-          }
-        );
-
-        if (!Array.isArray(response.data.foodItems)) {
-          throw new Error('Invalid food API response.');
-        }
-
-        // Filter videos belonging to the selected food partner
-        const partnerItems = response.data.foodItems.filter(
-          (item) => getFoodPartnerId(item.foodPartner) === profileId
-        );
-
-        if (isCurrent) {
-          setFoodItems(partnerItems);
-        }
-      } catch (requestError) {
-        console.error('Unable to load business profile:', requestError);
-
-        if (isCurrent) {
-          if (
-            axios.isAxiosError(requestError) &&
-            requestError.response?.status === 401
-          ) {
-            setError('Please sign in with a customer account to view this profile.');
-          } else if (
-            axios.isAxiosError(requestError) &&
-            requestError.response?.status === 403
-          ) {
-            setError('This profile is available to customer accounts only.');
-          } else {
-            setError('Unable to load this business profile. Please try again.');
-          }
-        }
-      } finally {
-        if (isCurrent) {
-          setLoading(false);
-        }
-      }
-    };
-
-    void fetchFoodItems();
-
-    return () => {
-      isCurrent = false;
-    };
   }, [profileId]);
 
-  // Get business information from the first available food item
-  const partner = foodItems[0]?.foodPartner;
 
-  const businessName =
-    typeof partner === 'object' && partner !== null
-      ? partner.bussinessname
-      : 'Food Business';
-
-  const initials = businessName
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((word) => word[0])
-    .join('')
-    .toUpperCase();
 
   return (
     <main className="partner-profile">
@@ -136,130 +79,112 @@ const Profile = () => {
         </Link>
       </header>
 
-      {/* Loading */}
-      {loading && (
-        <p className="partner-profile__message" role="status">
-          Loading business profile...
-        </p>
-      )}
-
-      {/* Error */}
-      {!loading && error && (
-        <section className="partner-profile__message" role="alert">
-          <p>{error}</p>
-
-          {(error.includes('sign in') ||
-            error.includes('customer accounts')) && (
-            <Link to="/user/login">
-              Customer sign in
-            </Link>
-          )}
-        </section>
-      )}
-
-      {/* Empty State */}
-      {!loading && !error && foodItems.length === 0 && (
-        <section className="partner-profile__message">
-          <h1>No videos available</h1>
-          <p>
-            This business has not uploaded any food videos yet,
-            or its videos are not available.
-          </p>
-        </section>
-      )}
-
       {/* Business Profile */}
-      {!loading && !error && foodItems.length > 0 && (
-        <>
-          <section
-            className="partner-profile__summary"
-            aria-label="Business profile"
-          >
-            <div className="partner-profile__identity">
+      {/* Generate avatar initials dynamically */}
+      <section
+        className="partner-profile__summary"
+        aria-label="Business profile"
+      >
+        <div className="partner-profile__identity">
 
-              <div
-                className="partner-profile__avatar"
-                aria-hidden="true"
+          <div
+            className="partner-profile__avatar"
+            aria-hidden="true"
+          >
+            {initials}
+          </div>
+
+          <div className="partner-profile__details">
+            <span className="partner-profile__eyebrow">
+              Food Business Name
+            </span>
+
+            <h1 className="partner-profile__name">
+              {profile?.bussinessname}
+            </h1>
+            <button
+              className="partner-profile__follow"
+              type="button"
+              aria-pressed={isFollowing}
+              onClick={() => setIsFollowing((following) => !following)}
+            >
+              {isFollowing ? 'Following' : 'Follow'}
+            </button>
+           
+          </div>
+
+        </div>
+
+
+        {/* Business Statistics */}
+        <dl className="partner-profile__stats">
+
+          <div className="partner-profile__stat">
+            <dt>Published Videos</dt>
+            <dd>{foodItems.length}</dd>
+          </div>
+
+          <div className="partner-profile__stat">
+            <dt>Customers Served</dt>
+            <dd>15.5K</dd>
+          </div>
+
+        </dl>
+      </section>
+
+      {/* Food Video Gallery */}
+      <section
+        className="partner-profile__gallery"
+        aria-labelledby="partner-profile-gallery-title"
+      >
+
+        <div className="partner-profile__gallery-heading">
+
+          <div>
+            <span className="partner-profile__eyebrow">
+              From the Kitchen
+            </span>
+
+            <h2 id="partner-profile-gallery-title">
+              Food Videos
+            </h2>
+          </div>
+
+          <span className="partner-profile__count">
+            {foodItems.length} videos
+          </span>
+
+        </div>
+
+        {/* Video Gallery */}
+        <div className="partner-profile__videos">
+
+          {/* Add your food video cards here later */}
+          {foodItems.map((item) => (
+              <article
+                className="partner-profile__video-card"
+                key={item._id}
               >
-                {initials || 'F'}
-              </div>
+                <video
+                  className="partner-profile__video"
+                  src={item.video}
+                  controls
+                  playsInline
+                  preload="metadata"
+                />
 
-              <div className="partner-profile__details">
-                <span className="partner-profile__eyebrow">
-                  Food Business Name
-                </span>
+                <div className="partner-profile__video-copy">
+                  <h3>{item.name}</h3>
 
-                <h1 className="partner-profile__name">
-                  {businessName}
-                </h1>
+                  {item.description && <p>{item.description}</p>}
+                </div>
+              </article>
+            ))}
 
-              </div>
-            </div>
+        </div>
 
-            {/* Business Statistics */}
-            <dl className="partner-profile__stats">
-              <div className="partner-profile__stat">
-                <dt>Published Videos</dt>
-                <dd>{foodItems.length}</dd>
-              </div>
+      </section>
 
-              <div className="partner-profile__stat">
-                <dt>Customers Served</dt>
-                <dd>15.5K</dd>
-              </div>
-            </dl>
-          </section>
-
-          {/* Food Video Gallery */}
-          <section
-            className="partner-profile__gallery"
-            aria-labelledby="partner-profile-gallery-title"
-          >
-            <div className="partner-profile__gallery-heading">
-              <div>
-                <span className="partner-profile__eyebrow">
-                  From the Kitchen
-                </span>
-
-                <h2 id="partner-profile-gallery-title">
-                  Food Videos
-                </h2>
-              </div>
-
-              <span className="partner-profile__count">
-                {foodItems.length}{' '}
-                {foodItems.length === 1 ? 'video' : 'videos'}
-              </span>
-            </div>
-
-            <div className="partner-profile__videos">
-              {foodItems.map((item) => (
-                <article
-                  className="partner-profile__video-card"
-                  key={item._id}
-                >
-                  <video
-                    className="partner-profile__video"
-                    src={item.video}
-                    controls
-                    playsInline
-                    preload="metadata"
-                    aria-label={`${item.name} food video`}
-                  />
-
-                  <div className="partner-profile__video-copy">
-                    <h3>{item.name}</h3>
-
-                    {item.description && (
-                      <p>{item.description}</p>
-                    )}
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
-        </>
-      )}
     </main>
   );
 };

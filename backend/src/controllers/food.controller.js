@@ -37,7 +37,22 @@ async function getFoodItems(req,res) {
 }
 
 
+async function getFoodItemsByPartner(req, res) {
+    const { id } = req.params;
+
+    const foodItems = await foodModel.find({
+        foodPartner: id
+    });
+
+    res.status(200).json({
+        message: "Food items fetched successfully",
+        foodItems
+    });
+}
+
+
 module.exports = {
     createFood,
-    getFoodItems
+    getFoodItems,
+    getFoodItemsByPartner,
 }
