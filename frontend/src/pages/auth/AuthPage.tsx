@@ -229,7 +229,7 @@ const AuthPage = ({ role, mode }: AuthPageProps) => {
           </div>
 
           <footer className="auth-footer">
-            <span>© 2025 FoodLoops</span>
+            <span>© 2026 FoodLoop</span>
             <a href="#help">Need help?</a>
           </footer>
         </div>

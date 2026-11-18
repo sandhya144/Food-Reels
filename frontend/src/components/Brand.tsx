@@ -8,8 +8,8 @@ type BrandProps = {
 };
 
 const Brand = ({ to, className, wordmark }: BrandProps) => (
-  <Link className={className} to={to} aria-label={`${wordmark ?? 'FoodLoops'} home`}>
-    <span className="foodloops-mark" aria-hidden="true">F</span>
+  <Link className={className} to={to} aria-label={`${wordmark ?? 'FoodLoop'} home`}>
+    <span className="foodloop-mark" aria-hidden="true">F</span>
     {wordmark && <span>{wordmark}</span>}
   </Link>
 );
