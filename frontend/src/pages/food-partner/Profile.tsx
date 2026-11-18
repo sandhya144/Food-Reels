@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import './Profile.css';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { API_URL } from '../../config';
 
 type FoodPartner = {
   _id: string;
@@ -39,7 +40,7 @@ const Profile = () => {
 
   useEffect(() => {
      // API 1: Fetch food partner details
-    axios.get(`http://localhost:3000/api/food-partner/${profileId}`, {withCredentials: true})
+    axios.get(`${API_URL}/api/food-partner/${profileId}`, {withCredentials: true})
     .then(response => {
       setProfile(response.data.foodPartner)   // Store the backend response in state
     })
@@ -48,7 +49,7 @@ const Profile = () => {
    });
   // API 2: Fetch food partner's uploaded videos
     axios.get(
-    `http://localhost:3000/api/food/partner/${profileId}`,
+    `${API_URL}/api/food/partner/${profileId}`,
     { withCredentials: true }
       )
     .then(response => {

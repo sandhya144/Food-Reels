@@ -11,9 +11,8 @@ const app = express();
 app.use(cookieParser());  // middleware
 app.use(express.json()); //middleware
 
-// cors
 app.use(cors({
-    origin: "http://localhost:5173",   // frontend url
+    origin: process.env.FRONTEND_URL || "http://localhost:5173",  // frontend url
     credentials: true
 }));
 

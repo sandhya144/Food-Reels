@@ -4,6 +4,7 @@ import axios from 'axios';
 import Brand from '../../components/Brand';
 import './CreateFood.css';
 import { Link, useNavigate } from 'react-router-dom';
+import { API_URL } from '../../config';
 
 type SubmitStatus = {
   type: 'success' | 'error';
@@ -26,7 +27,7 @@ const CreateFood = () => {
     setStatus(null);
 
     try {
-      await axios.post('http://localhost:3000/api/food', formData, {
+      await axios.post(`${API_URL}/api/food`, formData, {
         withCredentials: true,
       });
       form.reset();

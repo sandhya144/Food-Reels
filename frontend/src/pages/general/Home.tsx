@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import './Home.css';
 import Brand from '../../components/Brand';
 import { useNavigate } from 'react-router-dom';
+import { API_URL } from '../../config';
+
 
 interface Reel {
    _id: string;
@@ -42,7 +44,7 @@ const Home = () => {
     const fetchReels = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:3000/api/food',{withCredentials: true}
+          `${API_URL}/api/food`,{withCredentials: true}
         );
 
         // Supports either an array or { foods: [...] }

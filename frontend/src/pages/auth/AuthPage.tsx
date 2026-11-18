@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Brand from '../../components/Brand';
+import { API_URL } from '../../config';
 
 type AuthPageProps = {
   role: 'user' | 'partner';
@@ -34,7 +35,7 @@ const AuthPage = ({ role, mode }: AuthPageProps) => {
 
     try {
       const response = await axios.post<{ message?: string }>(
-        `http://localhost:3000/api/auth${endpoint}`,
+        `${API_URL}/api/auth${endpoint}`,
         data,
         { withCredentials: true }
       );
