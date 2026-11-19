@@ -35,12 +35,7 @@ Under the hood, FoodLoop is a React 19 + TypeScript frontend talking to an Expre
 ## 🎥 Live Demo
 
 
-<video
-  src="https://github.com/user-attachments/assets/14198b4e-92a9-4564-87b4-f220bc5edb78"
-  poster="./frontend/src/assets/img1.png"
-  controls
-  width="100%">
-</video>
+[![Demo Video](./frontend/src/assets/img1.png)](https://github.com/user-attachments/assets/14198b4e-92a9-4564-87b4-f220bc5edb78)
 
 
 ---
