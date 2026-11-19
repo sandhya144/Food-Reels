@@ -11,7 +11,7 @@
 ![ImageKit](https://img.shields.io/badge/Storage-ImageKit-0A7CFF)
 ![License](https://img.shields.io/badge/License-Not%20declared-lightgrey)
 
-*Discover dishes and local food businesses through short, scrollable food videos.*
+> ### *🍔 Discover dishes and local food businesses through short, scrollable food videos.*
 
 [🚀 Get Started](#-installation) · [✨ Features](#-features) · [📸 Screenshots](#-screenshots) · [🤝 Contribute](#-contributing)
 
@@ -25,10 +25,15 @@ FoodLoop is a full-stack reel platform that connects hungry people with local fo
 
 The project is built around two kinds of accounts:
 
-- **Users** open a vertical, TikTok-style feed of dishes, interact with reels (like, comment, save, share), and jump straight to the partner's profile page.
-- **Food partners** register, upload a video with a dish name and description, and automatically get a public profile page that showcases everything they have published, without managing a separate video host or website.
+- *Users* open a vertical, TikTok-style feed of dishes, interact with reels (like, comment, save, share), and jump straight to the partner's profile page.
+- *Food partners* register, upload a video with a dish name and description, and automatically get a public profile page that showcases everything they have published, without managing a separate video host or website.
 
 Under the hood, FoodLoop is a React 19 + TypeScript frontend talking to an Express 5 REST API. It uses MongoDB for data, JWT sessions in HTTP-only cookies for authentication, and ImageKit for video storage.
+
+---
+## 🎥 Live Demo
+
+[![FoodLoop Demo](https://img.youtube.com/vi/0g1k3r6X8xM/0.jpg)](https://www.youtube.com/watch?v=0g1k3r6X8xM)
 
 ---
 
@@ -110,11 +115,19 @@ graph LR
 
 ## 📸 Screenshots
 
-> Add your screenshots to a `docs/screenshots/` folder and update the paths below.
+### Screenshots
 
-| Reel Feed | Partner Profile | Upload Form |
-|---|---|---|
-| ![Reel feed](docs/screenshots/home.png) | ![Partner profile](docs/screenshots/profile.png) | ![Upload form](docs/screenshots/create-food.png) |
+**Reel Feed**
+
+![Reel Feed](./frontend/src/assets/img1.png)
+
+**Partner Profile**
+
+![Partner Profile](./frontend/src/assets/img2.png)
+
+**Food Reels Upload Form**
+
+![Upload Form](./frontend/src/assets/img3.png)
 
 ---
 
