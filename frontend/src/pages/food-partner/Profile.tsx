@@ -74,7 +74,7 @@ const Profile = () => {
           wordmark="Food Reels"
         />
 
-        <Link className="partner-profile__back" to="/">
+        <Link className="partner-profile__back" to="/home">
           <span aria-hidden="true">←</span>
           Back to reels
         </Link>

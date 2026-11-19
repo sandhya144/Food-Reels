@@ -74,7 +74,7 @@ const CreateFood = () => {
           to="/"
           wordmark="Food Reels"
         />
-        <Link className="create-food__back" to="/">
+        <Link className="create-food__back" to="/home">
           <span aria-hidden="true">←</span>
           Back to reels
         </Link>
