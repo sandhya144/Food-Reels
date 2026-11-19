@@ -25,15 +25,23 @@ FoodLoop is a full-stack reel platform that connects hungry people with local fo
 
 The project is built around two kinds of accounts:
 
-- *Users* open a vertical, TikTok-style feed of dishes, interact with reels (like, comment, save, share), and jump straight to the partner's profile page.
+- *Users* open a vertical, Instagram-style feed of dishes, interact with reels (like, comment, save, share), and jump straight to the partner's profile page.
 - *Food partners* register, upload a video with a dish name and description, and automatically get a public profile page that showcases everything they have published, without managing a separate video host or website.
 
 Under the hood, FoodLoop is a React 19 + TypeScript frontend talking to an Express 5 REST API. It uses MongoDB for data, JWT sessions in HTTP-only cookies for authentication, and ImageKit for video storage.
 
 ---
+
 ## 🎥 Live Demo
 
-[![FoodLoop Demo](https://img.youtube.com/vi/0g1k3r6X8xM/0.jpg)](https://www.youtube.com/watch?v=0g1k3r6X8xM)
+
+<video
+  src="https://github.com/user-attachments/assets/14198b4e-92a9-4564-87b4-f220bc5edb78"
+  poster="./frontend/src/assets/img1.png"
+  controls
+  width="100%">
+</video>
+
 
 ---
 
@@ -565,7 +573,7 @@ Then open a pull request on the original repository describing the problem, your
 
 ## 📬 Contact
 
-- **Repository:** [github.com/sandhya144/Food-Reels](https://github.com/sandhya144/Food-Reels)
+- **Repository:** [github.com/sandhya144/FoodLoop](https://github.com/sandhya144/FoodLoop)
 - **Owner:** [@sandhya144](https://github.com/sandhya144)
 - **License:** No license is currently declared, so the project should not be treated as open source until the owner adds one.
 
